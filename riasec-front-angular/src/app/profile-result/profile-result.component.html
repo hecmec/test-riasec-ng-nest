@@ -1,0 +1,10 @@
+<h1>Votre profile</h1>
+
+<h2>Les types de personnalité qui correspondent à vos choix sont</h2>
+<ul>
+  <li *ngFor="let categoryLabel of topCateoryLabels">
+    {{ categoryLabel }}
+  </li>
+</ul>
+
+<button (click)="tryAgainButtonClicked()">Essayer à nouveau</button>

@@ -1,0 +1,49 @@
+<h1>Dis-nous qui tu es !!</h1>
+
+<p>
+  Sélectionne les descriptions qui te correspondent le mieux. Pas de limite :
+  plus tu nous en dis, mieux nous te connaitrons.
+</p>
+
+<div class="question-list-wrapper">
+  <div class="question-choices">
+    <ul class="question-checkbox-list">
+      <li *ngFor="let questionItem of questionList">
+        <input
+          type="checkbox"
+          [(ngModel)]="questionItem.IsSelected"
+          [id]="'question-checkbox' + questionItem.Id"
+        />
+        <label [for]="'question-checkbox' + questionItem.Id">
+          {{ questionItem.Question }}
+        </label>
+      </li>
+    </ul>
+  </div>
+  <div class="selected-questions-list">
+    <div *ngIf="getSelectedItems().length > 0">
+      <h3>Vos choix:</h3>
+      <ul>
+        <li *ngFor="let selectedQuestion of getSelectedItems()">
+          {{ selectedQuestion.Question }}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="getSelectedItems().length > 0">
+      <h3>Les types de personnalité qui correspondent à vos choix:</h3>
+      <ul>
+        <li *ngFor="let categoryLabel of getTopTwoCateoryLabels()">
+          {{ categoryLabel }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<button
+  class="btn-validate"
+  (click)="validate()"
+  *ngIf="getSelectedItems().length > 0"
+>
+  Je valide
+</button>
