@@ -8,8 +8,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { QuestionItem } from '../common/question.interface';
-import questionDataJson from '../../assets/riasec-questions.json';
 import { Constants } from '../common/constants.class';
+import { DataService } from '../data-service.service';
 
 @Component({
   selector: 'app-question-checkbox-list',
@@ -17,15 +17,23 @@ import { Constants } from '../common/constants.class';
   styleUrls: ['./question-checkbox-list.component.scss'],
 })
 export class QuestionCheckboxListComponent implements OnInit, OnChanges {
-  questionList: QuestionItem[] = questionDataJson;
-
   @Output()
   selectionValidated = new EventEmitter<string[]>();
 
-  constructor() {}
+  questionList: QuestionItem[] = [];
+
+  constructor(private readonly dataService: DataService) {}
 
   ngOnInit(): void {
     this.removeSelection();
+
+    this.fetchQuestions();
+  }
+
+  fetchQuestions() {
+    return this.dataService.getQuestions().subscribe((res: {}) => {
+      this.questionList = res as QuestionItem[];
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -41,6 +49,7 @@ export class QuestionCheckboxListComponent implements OnInit, OnChanges {
       return quest;
     });
   }
+
   /**
    * Gets a list of QuestionItems that the user has selected
    * @returns array of QuestionItems
@@ -64,7 +73,7 @@ export class QuestionCheckboxListComponent implements OnInit, OnChanges {
    */
   private getTopLabelsOfList(
     questionList: QuestionItem[],
-    limit: number = 1
+    limit: number = 2
   ): string[] {
     let result: string[] = [];
 

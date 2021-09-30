@@ -7,18 +7,20 @@
 
 <div class="question-list-wrapper">
   <div class="question-choices">
-    <ul class="question-checkbox-list">
-      <li *ngFor="let questionItem of questionList">
-        <input
-          type="checkbox"
-          [(ngModel)]="questionItem.IsSelected"
-          [id]="'question-checkbox' + questionItem.Id"
-        />
-        <label [for]="'question-checkbox' + questionItem.Id">
-          {{ questionItem.Question }}
-        </label>
-      </li>
-    </ul>
+    <div class="question-checkbox-list-wrapper">
+      <ul class="question-checkbox-list">
+        <li *ngFor="let questionItem of questionList">
+          <input
+            type="checkbox"
+            [(ngModel)]="questionItem.IsSelected"
+            [id]="'question-checkbox' + questionItem.Id"
+          />
+          <label [for]="'question-checkbox' + questionItem.Id">
+            {{ questionItem.Question }}
+          </label>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="selected-questions-list">
     <div *ngIf="getSelectedItems().length > 0">

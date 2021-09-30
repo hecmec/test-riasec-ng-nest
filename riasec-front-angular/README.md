@@ -1,30 +1,27 @@
 # RiasecFrontAngular
 
-
 added compiler options for easier json import
-    
+
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
 
+added npm https://www.npmjs.com/package/concurrently
+
+added proxy file to fix CORS issue
+
+added CORS handling to Nest
 
 ## add NestJS
-
 
 ## Dockerization
 
 https://dev.to/wkrzywiec/build-and-run-angular-application-in-a-docker-container-19pm
-
-
-
 
 ## Background
 
 https://www.altia.be/altia/14-boite-a-outils/71-la-theorie-du-choix-vocationnel
 
 https://fr.wikipedia.org/wiki/Mod%C3%A8le_RIASEC
-
-
-
 
 # Original
 
