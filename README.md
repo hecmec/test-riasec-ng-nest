@@ -20,6 +20,8 @@ from root
 
 ## Start API and Front
 
+from root
+
     cd riasec-front-angular
     npm run start:srv
 

@@ -3,6 +3,7 @@ import {
   EventEmitter,
   HostListener,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -10,30 +11,46 @@ import {
 import { QuestionItem } from '../common/question.interface';
 import { Constants } from '../common/constants.class';
 import { DataService } from '../data-service.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question-checkbox-list',
   templateUrl: './question-checkbox-list.component.html',
   styleUrls: ['./question-checkbox-list.component.scss'],
 })
-export class QuestionCheckboxListComponent implements OnInit, OnChanges {
+export class QuestionCheckboxListComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Output()
   selectionValidated = new EventEmitter<string[]>();
 
   questionList: QuestionItem[] = [];
 
+  destroyed$: Subject<void> = new Subject<void>();
+
   constructor(private readonly dataService: DataService) {}
 
   ngOnInit(): void {
-    this.removeSelection();
-
     this.fetchQuestions();
   }
 
+  /**
+   * component is destroyed
+   * Trigger next on destroyed subject to auto unsubscribe.
+   */
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
   fetchQuestions() {
-    return this.dataService.getQuestions().subscribe((res: {}) => {
-      this.questionList = res as QuestionItem[];
-    });
+    return this.dataService
+      .getQuestions()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((res: {}) => {
+        this.questionList = res as QuestionItem[];
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -62,7 +79,7 @@ export class QuestionCheckboxListComponent implements OnInit, OnChanges {
    * Returns the top two selected riasec category labels
    * @returns
    */
-  public getTopTwoCateoryLabels() {
+  public getTopTwoCategoyLabels() {
     return this.getTopLabelsOfList(this.getSelectedItems(), 2);
   }
   /**
@@ -135,9 +152,10 @@ export class QuestionCheckboxListComponent implements OnInit, OnChanges {
   }
 
   /**
-   *
+   * User clicked on validate button
+   * We send our top categories to the parent
    */
-  public validate() {
-    this.selectionValidated.emit(this.getTopTwoCateoryLabels());
+  public btnValidateClicked() {
+    this.selectionValidated.emit(this.getTopTwoCategoyLabels());
   }
 }

@@ -16,10 +16,18 @@ export class DataService {
 
   constructor(private httpClient: HttpClient) {}
 
+  /**
+   * Returns the questions from the local json file
+   * @returns
+   */
   getQuestionListJson(): QuestionItem[] {
     return this.questionList;
   }
 
+  /**
+   * Returns and Observale of Questions from the API endpoint '/riaquestions'
+   * @returns
+   */
   getQuestions(): Observable<QuestionItem> {
     let headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
@@ -31,6 +39,11 @@ export class DataService {
       .pipe(retry(1), catchError(this.processError));
   }
 
+  /**
+   * One way to handle errors
+   * @param err
+   * @returns
+   */
   processError(err: any) {
     let message = '';
     if (err.error instanceof ErrorEvent) {

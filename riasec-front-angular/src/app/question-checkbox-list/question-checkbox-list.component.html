@@ -35,7 +35,7 @@
     <div *ngIf="getSelectedItems().length > 0">
       <h3>Les types de personnalité qui correspondent à vos choix:</h3>
       <ul>
-        <li *ngFor="let categoryLabel of getTopTwoCateoryLabels()">
+        <li *ngFor="let categoryLabel of getTopTwoCategoyLabels()">
           {{ categoryLabel }}
         </li>
       </ul>
@@ -44,7 +44,7 @@
 </div>
 <button
   class="btn-validate"
-  (click)="validate()"
+  (click)="btnValidateClicked()"
   *ngIf="getSelectedItems().length > 0"
 >
   Je valide
