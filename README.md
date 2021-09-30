@@ -22,3 +22,5 @@ from root
 
     cd riasec-front-angular
     npm run start:srv
+
+browse to localhost:4200
